@@ -16,6 +16,14 @@
 
 <body>
 
+    <script>
+        if (window.location.search.includes('reset=true')) {
+            localStorage.clear();
+            const req = indexedDB.deleteDatabase('VastraDB');
+            req.onsuccess = () => { window.location.href = window.location.pathname; };
+            req.onerror = () => { window.location.href = window.location.pathname; };
+        }
+    </script>
     <!-- ═══════════════════════════ AUTH WRAPPER ═══════════════════════════ -->
     <div id="authWrapper" class="auth-wrapper">
 
