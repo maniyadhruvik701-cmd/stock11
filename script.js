@@ -5499,3 +5499,61 @@ function handleGlobalBarcode(code) {
         setTimeout(() => openQtyDialog(matchedDesign.id), 150);
     }
 }
+
+// --- Delete All Functions ---
+async function clearServerData(key) {
+    if (typeof SERVER_URL !== 'undefined') {
+        try {
+            await fetch(`${SERVER_URL}/api/clear/${key}`, {
+                method: 'POST',
+                headers: { 'ngrok-skip-browser-warning': '69420' }
+            });
+            if (typeof _lastLocalJSON !== 'undefined') {
+                _lastLocalJSON[key] = '[]';
+            }
+        } catch(e) { console.error('Clear server data failed', e); }
+    }
+}
+
+async function deleteAllDesigns() {
+    if(confirm('Are you sure you want to delete ALL Designs? This action cannot be undone.')) {
+        designs = [];
+        if(typeof VastraDB !== 'undefined') {
+            await VastraDB.saveAll(designs);
+        }
+        await clearServerData('vastra_designs');
+        renderDesignsTable();
+        if(typeof updateStats === 'function') updateStats();
+    }
+}
+
+async function deleteAllChallans() {
+    if(confirm('Are you sure you want to delete ALL Delivery Challans? This action cannot be undone.')) {
+        challans = [];
+        localStorage.setItem('vastra_challans', JSON.stringify(challans));
+        await clearServerData('vastra_challans');
+        renderChallanList();
+        if(typeof updateStats === 'function') updateStats();
+    }
+}
+
+async function deleteAllPacks() {
+    if(confirm('Are you sure you want to delete ALL Pack Designs? This action cannot be undone.')) {
+        packs = [];
+        localStorage.setItem('vastra_packs', JSON.stringify(packs));
+        await clearServerData('vastra_packs');
+        renderPackList();
+        if(typeof updateStats === 'function') updateStats();
+    }
+}
+
+async function deleteAllSalesReturns() {
+    if(confirm('Are you sure you want to delete ALL Sales Returns? This action cannot be undone.')) {
+        salesReturns = [];
+        localStorage.setItem('vastra_salesReturns', JSON.stringify(salesReturns));
+        await clearServerData('vastra_salesReturns');
+        renderSRList();
+        if(typeof updateStats === 'function') updateStats();
+    }
+}
+
