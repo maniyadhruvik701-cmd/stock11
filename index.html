@@ -233,8 +233,10 @@
                 <div id="designsSection" class="page-section">
                     <div class="section-header">
                         <h3><i class="fa fa-tshirt"></i> Designs</h3>
-                        <button class="btn-add" onclick="openAddDesignModal()"><i class="fa fa-plus"></i> Add New
-                            Design</button>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn-add" style="background:var(--danger);color:#fff" onclick="deleteAllDesigns()"><i class="fa fa-trash"></i> Delete All</button>
+                            <button class="btn-add" onclick="openAddDesignModal()"><i class="fa fa-plus"></i> Add New Design</button>
+                        </div>
                     </div>
                     <!-- Search Bar -->
                     <div style="padding:0 16px 12px;display:flex;align-items:center;margin-top:-8px;">
@@ -255,9 +257,12 @@
                 <div id="challansSection" class="page-section" style="display:none">
                     <div class="section-header" style="justify-content:space-between">
                         <h3><i class="fa fa-file-invoice"></i> Delivery Challan</h3>
-                        <i class="fa fa-file-excel" title="Export Excel"
-                            style="font-size:18px;color:var(--blue);cursor:pointer"
-                            onclick="toggleFilter('challanFilterBar')"></i>
+                        <div style="display:flex;align-items:center;gap:12px">
+                            <i class="fa fa-trash" title="Delete All" style="font-size:18px;color:var(--danger);cursor:pointer" onclick="deleteAllChallans()"></i>
+                            <i class="fa fa-file-excel" title="Export Excel"
+                                style="font-size:18px;color:var(--blue);cursor:pointer"
+                                onclick="toggleFilter('challanFilterBar')"></i>
+                        </div>
                     </div>
                     <!-- Search Bar -->
                     <div style="padding:0 16px 12px;display:flex;align-items:center;margin-top:-8px;">
@@ -307,6 +312,7 @@
                     <div class="section-header" style="justify-content:space-between">
                         <h3>Pack Design</h3>
                         <div style="display:flex;align-items:center;gap:12px">
+                            <i class="fa fa-trash" title="Delete All" style="font-size:18px;color:var(--danger);cursor:pointer" onclick="deleteAllPacks()"></i>
                             <i class="fa fa-file-excel" title="Export Excel"
                                 style="font-size:18px;color:var(--blue);cursor:pointer"
                                 onclick="toggleFilter('packFilterBar')"></i>
@@ -407,9 +413,12 @@
                 <div id="salesReturnSection" class="page-section" style="display:none">
                     <div class="section-header" style="justify-content:space-between">
                         <h3><i class="fa fa-undo-alt"></i> Sales Return</h3>
-                        <i class="fa fa-file-excel" title="Export Excel"
-                            style="font-size:18px;color:var(--blue);cursor:pointer"
-                            onclick="toggleFilter('srFilterBar')"></i>
+                        <div style="display:flex;align-items:center;gap:12px">
+                            <i class="fa fa-trash" title="Delete All" style="font-size:18px;color:var(--danger);cursor:pointer" onclick="deleteAllSalesReturns()"></i>
+                            <i class="fa fa-file-excel" title="Export Excel"
+                                style="font-size:18px;color:var(--blue);cursor:pointer"
+                                onclick="toggleFilter('srFilterBar')"></i>
+                        </div>
                     </div>
                     <!-- Search Bar -->
                     <div style="padding:0 16px 12px;display:flex;align-items:center;margin-top:-8px;">
