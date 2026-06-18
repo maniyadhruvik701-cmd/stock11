@@ -103,6 +103,20 @@ app.post('/api/data/:key', (req, res) => {
     }
 });
 
+// Explicit Clear API for Delete All functionality
+app.post('/api/clear/:key', (req, res) => {
+    const key = req.params.key;
+    const filePath = path.join(DATA_DIR, `${key}.json`);
+    try {
+        const emptyData = (key.includes('supplier') || key.includes('permission')) ? {} : [];
+        fs.writeFileSync(filePath, JSON.stringify(emptyData, null, 2), 'utf8');
+        res.json(emptyData);
+    } catch (err) {
+        console.error(`Error clearing ${key}:`, err);
+        res.status(500).json({ error: 'Failed to clear data' });
+    }
+});
+
 // Special Batch API for deep sync
 app.get('/api/sync-all', (req, res) => {
     try {
