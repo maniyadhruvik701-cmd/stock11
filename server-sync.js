@@ -98,14 +98,28 @@ async function pullAndMerge(key) {
 
         const mergedJSON = JSON.stringify(merged);
         const localJSON = JSON.stringify(localData);
+        const serverJSON = JSON.stringify(serverData);
         _lastLocalJSON[key] = mergedJSON;
         
+        // Update local storage if merged data is newer/different
         if (mergedJSON !== localJSON) {
             _suppressServerWrite = true;
             localStorage.setItem(key, mergedJSON);
             _suppressServerWrite = false;
             console.log(`⬇️ Merged ${key} from Server`);
             if (typeof refreshUIForKey === 'function') refreshUIForKey(key);
+        }
+
+        // Push to server if we have local data that the server doesn't have
+        if (mergedJSON !== serverJSON) {
+            fetch(`${SERVER_URL}/api/data/${key}`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': '69420'
+                },
+                body: mergedJSON
+            }).catch(e => console.error(e));
         }
     } catch (err) {
         console.error(`Error pulling ${key}:`, err);
@@ -131,6 +145,7 @@ async function pullAndMergeDesigns() {
         const merged = smartMerge(localDesigns, serverData);
         merged.sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''), undefined, { numeric: true, sensitivity: 'base' }));
         const mergedJSON = JSON.stringify(merged);
+        const serverJSON = JSON.stringify(serverData);
         _lastLocalJSON['vastra_designs'] = mergedJSON;
 
         if (mergedJSON !== JSON.stringify(localDesigns)) {
@@ -139,7 +154,9 @@ async function pullAndMergeDesigns() {
             _suppressServerWrite = false;
             console.log(`⬇️ Merged vastra_designs from Server`);
             if (typeof refreshUIForKey === 'function') refreshUIForKey('vastra_designs');
+        }
 
+        if (mergedJSON !== serverJSON) {
             window.syncDesignsToServerManual();
         }
     } catch (err) {
